@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Data Link Defense</title>
+  <meta name="description" content="A mobile-friendly data-link-layer study game for networking quiz practice.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="hero">
+    <div>
+      <p class="eyebrow">Networking mission trainer</p>
+      <h1>Data Link Defense</h1>
+      <p class="tagline">Defend a noisy link by answering fast, reading feedback, and replaying missed concepts until they stick.</p>
+    </div>
+    <div class="hud" aria-label="Game status">
+      <div><span>Score</span><strong id="score">0</strong></div>
+      <div><span>Streak</span><strong id="streak">0</strong></div>
+      <div><span>Energy</span><strong id="energy" aria-label="energy meter">⚡⚡⚡</strong></div>
+    </div>
+  </header>
+
+  <main>
+    <section class="briefing" aria-labelledby="briefing-title">
+      <div>
+        <h2 id="briefing-title">Mission briefing</h2>
+        <p>Clear levels across stop-and-wait, sequence numbers, sliding windows, coding, framing, and redundancy. A wrong answer costs energy and immediately resurfaces so you can correct the memory while it is fresh.</p>
+      </div>
+      <details id="instructions">
+        <summary>How to play</summary>
+        <ul>
+          <li>Answer each mission prompt. Some are multiple choice, true/false, numeric, or tap-in-order.</li>
+          <li>Read the explanation after every response; that feedback is part of the study loop.</li>
+          <li>Use Replay missed after a run to drill only concepts that leaked through your shield.</li>
+        </ul>
+      </details>
+    </section>
+
+    <section class="arena" aria-labelledby="arena-title">
+      <div class="arena-topline">
+        <span id="level-label" class="level-pill">Level 1</span>
+        <div class="progress" aria-label="mission progress"><span id="progress-fill"></span></div>
+      </div>
+      <h2 id="arena-title">Active defense</h2>
+      <p id="mission-text" class="mission-text">Loading mission…</p>
+      <article class="question-card" aria-labelledby="prompt">
+        <p id="prompt" class="prompt">Loading question…</p>
+        <div id="answer-options" class="answers" role="group" aria-label="Answer options"></div>
+      </article>
+      <p id="feedback" class="feedback" aria-live="polite">Choose an answer to defend the link.</p>
+      <button id="next-button" type="button" class="primary" hidden>Next mission</button>
+    </section>
+
+    <section class="mastery" aria-labelledby="mastery-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">After-action report</p>
+          <h2 id="mastery-title">Mastery breakdown</h2>
+        </div>
+        <div class="actions">
+          <button id="replay-missed" type="button" disabled>Replay missed</button>
+          <button id="reset-progress" type="button">Reset progress</button>
+        </div>
+      </div>
+      <div id="mastery-report" class="report" aria-live="polite"></div>
+    </section>
+
+    <section class="learning-design" aria-labelledby="learning-title">
+      <h2 id="learning-title">About the learning design</h2>
+      <p>This game uses short retrieval attempts, immediate explanatory feedback, mixed practice, and adaptive resurfacing of missed concepts. Progress is saved only in this browser with localStorage.</p>
+      <ul>
+        <li><strong>Retrieval practice:</strong> answering from memory strengthens delayed retention more effectively than rereading alone. <a href="https://learninglab.psych.purdue.edu/downloads/2006/2006_Roediger_Karpicke_PsychSci.pdf" target="_blank" rel="noopener">Roediger &amp; Karpicke (2006)</a></li>
+        <li><strong>Practice testing and spacing:</strong> both are rated high-utility learning techniques. <a href="https://doi.org/10.1177/1529100612453266" target="_blank" rel="noopener">Dunlosky et al. (2013)</a></li>
+        <li><strong>Corrective feedback:</strong> explanations after testing help repair misconceptions and stabilize uncertain knowledge. <a href="https://learninglab.psych.purdue.edu/downloads/2008/2008_Butler_Karpicke_Roediger_JEPLMC.pdf" target="_blank" rel="noopener">Butler, Karpicke &amp; Roediger (2008)</a></li>
+        <li><strong>Technical grounding:</strong> questions and explanations were checked against <a href="https://book.systemsapproach.org/direct/reliable.html" target="_blank" rel="noopener">Reliable Transmission</a>, <a href="https://book.systemsapproach.org/direct/encoding.html" target="_blank" rel="noopener">Encoding</a>, <a href="https://book.systemsapproach.org/direct/framing.html" target="_blank" rel="noopener">Framing</a>, and <a href="https://book.systemsapproach.org/direct/error.html" target="_blank" rel="noopener">Error Detection</a> from <em>Computer Networks: A Systems Approach</em>.</li>
+      </ul>
+      <p class="microcopy">The game prioritizes missed concepts, but its answer explanations—not points or streaks—are the main learning tool.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>Built as a dependency-free static study game: HTML, CSS, and JavaScript only.</p>
+  </footer>
+  <script src="app.js"></script>
+</body>
+</html>
