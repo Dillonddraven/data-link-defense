@@ -8,8 +8,9 @@ const chrome=process.env.CHROME_BIN||'/Applications/Google Chrome.app/Contents/M
 const runtime=path.join(root,'.qa-runtime');fs.mkdirSync(runtime,{recursive:true});
 const profile=fs.mkdtempSync(path.join(runtime,'chrome-'));
 const server=http.createServer((req,res)=>{
+  const pathname=new URL(req.url,'http://127.0.0.1').pathname;
   const files={'/':'index.html','/index.html':'index.html','/app.js':'app.js','/questions.js':'questions.js','/styles.css':'styles.css'};
-  const file=files[req.url];if(!file){res.writeHead(404);res.end();return;}
+  const file=files[pathname];if(!file){res.writeHead(404);res.end();return;}
   res.setHeader('Content-Type',file.endsWith('.js')?'text/javascript':file.endsWith('.css')?'text/css':'text/html');res.end(fs.readFileSync(path.join(root,file)));
 });
 let browser;let serial=0;let buffer='';const pending=new Map();const exceptions=[];let sessionId;let loads=0;

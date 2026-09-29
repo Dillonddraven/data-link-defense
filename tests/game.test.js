@@ -187,5 +187,8 @@ test('shell: accessible, mobile, local-only campaign with credible source links'
   const html = fs.readFileSync(path.join(__dirname,'../index.html'),'utf8'); const css = fs.readFileSync(path.join(__dirname,'../styles.css'),'utf8');
   for(const pattern of [/<main\b/, /<section\b[^>]*aria-labelledby=/, /aria-live="polite"/, /<fieldset/, /<legend/, /id="confidence"/, /id="completion"/, /id="domain-select"/, /id="share-report"/, /Elliott/, /locally in this browser/, /Roediger.*Karpicke/, /Dunlosky/, /Butler/, /isc2.org\/certifications\/cissp\/cissp-certification-exam-outline/]) assert.match(html,pattern);
   for(const pattern of [/min-height:\s*44px/, /:focus-visible/, /prefers-reduced-motion/, /@media\s*\(max-width:\s*720px\)/]) assert.match(css,pattern);
+  assert.match(html, /styles\.css\?v=[a-z0-9.-]+/i, 'versioned stylesheet prevents stale deploy assets');
+  assert.match(html, /questions\.js\?v=[a-z0-9.-]+/i, 'versioned question bank prevents stale deploy assets');
+  assert.match(html, /app\.js\?v=[a-z0-9.-]+/i, 'versioned app prevents stale deploy assets');
   assert.doesNotMatch(html, /https?:[^"']+\.js/);
 });
