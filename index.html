@@ -3,85 +3,120 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Data Link Defense</title>
-  <meta name="description" content="A mobile-friendly data-link-layer study game for networking quiz practice.">
+  <meta name="description" content="Sentinel: a local-first CISSP Domains 1–4 study campaign with retrieval practice, confidence calibration, and a Blackout boss scenario.">
+  <meta name="theme-color" content="#10182d">
+  <title>Sentinel • CISSP Domains 1–4</title>
   <link rel="stylesheet" href="styles.css">
+  <script src="questions.js" defer></script>
+  <script src="app.js" defer></script>
 </head>
 <body>
+  <a class="skip-link" href="#main">Skip to campaign</a>
   <header class="hero">
-    <div>
-      <p class="eyebrow">Networking mission trainer</p>
-      <h1>Data Link Defense</h1>
-      <p class="tagline">Defend a noisy link by answering fast, reading feedback, and replaying missed concepts until they stick.</p>
+    <p class="eyebrow">Formerly Data Link Defense • A study campaign</p>
+    <h1>SENTINEL<span>CISSP Domains 1–4</span></h1>
+    <p class="tagline">Make the call. Defend the mission. Learn from every breach.</p>
+    <div class="hud" aria-label="Campaign progress">
+      <div><span>Lifetime XP</span><strong id="xp">0</strong></div>
+      <div><span>Rank</span><strong id="rank">Cadet</strong></div>
+      <div><span>Current streak</span><strong id="streak">0</strong></div>
     </div>
-    <div class="hud" aria-label="Game status">
-      <div><span>Score</span><strong id="score">0</strong></div>
-      <div><span>Streak</span><strong id="streak">0</strong></div>
-      <div><span>Energy</span><strong id="energy" aria-label="energy meter">⚡⚡⚡</strong></div>
-    </div>
+    <p id="combo" class="microcopy"></p>
   </header>
-
-  <main>
+  <main id="main">
     <section class="briefing" aria-labelledby="briefing-title">
-      <div>
-        <h2 id="briefing-title">Mission briefing</h2>
-        <p>Clear levels across stop-and-wait, sequence numbers, sliding windows, coding, framing, and redundancy. A wrong answer costs energy and immediately resurfaces so you can correct the memory while it is fresh.</p>
+      <p class="eyebrow">01 / Choose your operation</p>
+      <h2 id="briefing-title">Four domains. One defense.</h2>
+      <p>Protect a regional emergency network: set policy in the <b>Council</b>, secure the <b>Archive</b>, engineer the <b>Citadel</b>, and defend the <b>Mesh</b>. Finish with <b>BLACKOUT</b>, a connected crisis case.</p>
+      <div class="launch-controls">
+        <label for="domain-select">Training route</label>
+        <select id="domain-select">
+          <option value="mixed">Mixed campaign • all four domains</option>
+          <option value="1">Domain 1 • Security and Risk Management</option>
+          <option value="2">Domain 2 • Asset Security</option>
+          <option value="3">Domain 3 • Security Architecture and Engineering</option>
+          <option value="4">Domain 4 • Communication and Network Security</option>
+        </select>
+        <button id="start-session" type="button" class="primary">Launch mission</button>
       </div>
-      <details id="instructions">
-        <summary>How to play</summary>
+      <details>
+        <summary>Mission rules &amp; progression</summary>
         <ul>
-          <li>Answer each mission prompt. Some are multiple choice, true/false, numeric, or tap-in-order.</li>
-          <li>Read the explanation after every response; that feedback is part of the study loop.</li>
-          <li>Use Replay missed after a run to drill only concepts that leaked through your shield.</li>
+          <li>Mixed: 12 balanced practice decisions plus 4 boss decisions. A domain route covers its 15 practice decisions plus 1 boss decision. New mixed runs vary the selection.</li>
+          <li>Choose an answer, rate confidence 1–3, then lock it. Read why each option wins or loses before advancing. No timer, lives, or penalties for taking time.</li>
+          <li>A miss can return once, after at least two other decisions. Late and boss misses wait for a new Replay missed session. A correct retry clears that unresolved miss, not its history.</li>
+          <li>Correct decisions earn 100 XP plus a streak bonus of 20–100 XP. Cadet → Analyst at 1,000 → Defender at 3,000 → Sentinel at 6,000 XP. Ranks reward practice, not exam readiness.</li>
+          <li>BLACKOUT: earn one shield per correct boss decision. Secure every available shield to earn a deterministic 200 XP finale bonus. No random damage or hidden pass threshold.</li>
         </ul>
       </details>
+      <p id="welcome">Choose a route and launch when ready. Your last mission resumes automatically when you return.</p>
     </section>
 
-    <section class="arena" aria-labelledby="arena-title">
-      <div class="arena-topline">
-        <span id="level-label" class="level-pill">Level 1</span>
-        <div class="progress" aria-label="mission progress"><span id="progress-fill"></span></div>
-      </div>
+    <section id="arena" class="arena" aria-labelledby="arena-title" hidden>
+      <div class="arena-topline"><p class="eyebrow">02 / Make the decision</p><span id="level-label" class="pill"></span></div>
       <h2 id="arena-title">Active defense</h2>
-      <p id="mission-text" class="mission-text">Loading mission…</p>
-      <article class="question-card" aria-labelledby="prompt">
-        <p id="prompt" class="prompt">Loading question…</p>
-        <div id="answer-options" class="answers" role="group" aria-label="Answer options"></div>
-      </article>
-      <p id="feedback" class="feedback" aria-live="polite">Choose an answer to defend the link.</p>
-      <button id="next-button" type="button" class="primary" hidden>Next mission</button>
+      <label id="progress-label" for="mission-progress">Mission progress</label>
+      <progress id="mission-progress" max="16" value="0">Mission progress</progress>
+      <p id="mission-text" class="mission-text"></p>
+      <form id="answer-form">
+        <h3 id="prompt" tabindex="-1"></h3>
+        <div id="answer-options" class="answers" role="group" aria-labelledby="prompt"></div>
+        <fieldset id="confidence">
+          <legend>How confident are you? <span>Required before locking</span></legend>
+          <div class="confidence-options">
+            <label><input type="radio" name="confidence" value="1"> 1 · Guessing</label>
+            <label><input type="radio" name="confidence" value="2"> 2 · Somewhat sure</label>
+            <label><input type="radio" name="confidence" value="3"> 3 · Confident</label>
+          </div>
+        </fieldset>
+        <button id="lock-answer" type="submit" class="primary" disabled>Lock decision</button>
+      </form>
+      <div id="feedback" class="feedback" aria-live="polite" aria-atomic="true"></div>
+      <button id="next-button" type="button" class="primary" hidden>Continue mission →</button>
     </section>
+
+    <section id="completion" class="completion" aria-labelledby="completion-title" hidden>
+      <p class="eyebrow">Operation debrief</p>
+      <h2 id="completion-title" tabindex="-1">Mission complete</h2>
+      <p id="completion-summary" aria-live="polite"></p>
+      <p>Pause and explain one concept in your own words. Revisit the material on a later day for longer spacing. Launch a different route or replay unresolved misses below.</p>
+    </section>
+    <p id="boss-status" class="boss-banner" aria-live="polite"></p>
 
     <section class="mastery" aria-labelledby="mastery-title">
-      <div class="section-heading">
-        <div>
-          <p class="eyebrow">After-action report</p>
-          <h2 id="mastery-title">Mastery breakdown</h2>
-        </div>
-        <div class="actions">
-          <button id="replay-missed" type="button" disabled>Replay missed</button>
-          <button id="reset-progress" type="button">Reset progress</button>
-        </div>
+      <p class="eyebrow">03 / Learn from the evidence</p>
+      <h2 id="mastery-title">Domain mastery journal</h2>
+      <p>Practice accuracy includes retries and repeated sessions. Coverage shows unique questions seen. Neither is an official mastery score or exam prediction.</p>
+      <div id="mastery-report" class="domain-grid"></div>
+      <p id="calibration" aria-live="polite"></p>
+      <p id="legacy-note" class="microcopy"></p>
+      <div class="actions">
+        <button id="replay-missed" type="button" disabled>Replay missed</button>
+        <button id="share-report" type="button">Prepare report for Elliott</button>
+        <button id="reset-progress" type="button" class="quiet">Reset local progress</button>
       </div>
-      <div id="mastery-report" class="report" aria-live="polite"></div>
+      <div id="report-panel" hidden>
+        <label for="report-text">Score and missed-topic report — copy and share with Elliott for study tracking</label>
+        <textarea id="report-text" readonly rows="14" spellcheck="false"></textarea>
+        <p>Text is selected for copying. Nothing is sent automatically; the browser does not write to the study CLI.</p>
+      </div>
+      <p id="storage-status" role="status">Progress stays locally in this browser.</p>
+      <p class="microcopy">No accounts, trackers, or server-side progress. Clearing browser data removes this campaign’s save. Different browsers/devices do not sync. Save a report before clearing data.</p>
     </section>
 
     <section class="learning-design" aria-labelledby="learning-title">
       <h2 id="learning-title">About the learning design</h2>
-      <p>This game uses short retrieval attempts, immediate explanatory feedback, mixed practice, and adaptive resurfacing of missed concepts. Progress is saved only in this browser with localStorage.</p>
+      <p>A formative study aid, not graded coursework, official exam questions, or a complete CISSP preparation course. These original prompts sample Domains 1–4, not Domains 5–8.</p>
       <ul>
-        <li><strong>Retrieval practice:</strong> answering from memory strengthens delayed retention more effectively than rereading alone. <a href="https://learninglab.psych.purdue.edu/downloads/2006/2006_Roediger_Karpicke_PsychSci.pdf" target="_blank" rel="noopener">Roediger &amp; Karpicke (2006)</a></li>
-        <li><strong>Practice testing and spacing:</strong> both are rated high-utility learning techniques. <a href="https://doi.org/10.1177/1529100612453266" target="_blank" rel="noopener">Dunlosky et al. (2013)</a></li>
-        <li><strong>Corrective feedback:</strong> explanations after testing help repair misconceptions and stabilize uncertain knowledge. <a href="https://learninglab.psych.purdue.edu/downloads/2008/2008_Butler_Karpicke_Roediger_JEPLMC.pdf" target="_blank" rel="noopener">Butler, Karpicke &amp; Roediger (2008)</a></li>
-        <li><strong>Technical grounding:</strong> questions and explanations were checked against <a href="https://book.systemsapproach.org/direct/reliable.html" target="_blank" rel="noopener">Reliable Transmission</a>, <a href="https://book.systemsapproach.org/direct/encoding.html" target="_blank" rel="noopener">Encoding</a>, <a href="https://book.systemsapproach.org/direct/framing.html" target="_blank" rel="noopener">Framing</a>, and <a href="https://book.systemsapproach.org/direct/error.html" target="_blank" rel="noopener">Error Detection</a> from <em>Computer Networks: A Systems Approach</em>.</li>
+        <li><strong>Retrieval before feedback:</strong> commit a decision before seeing the explanation. <a href="https://learninglab.psych.purdue.edu/downloads/2006/2006_Roediger_Karpicke_PsychSci.pdf">Roediger &amp; Karpicke (2006)</a>.</li>
+        <li><strong>Practice testing and distributed practice:</strong> <a href="https://doi.org/10.1177/1529100612453266">Dunlosky et al. (2013)</a>. Two intervening questions create a small within-session lag, not a validated long-term spacing schedule. Return on later days too.</li>
+        <li><strong>Confidence and corrective feedback:</strong> review confident errors and low-confidence correct answers; a correct guess is not secure knowledge. <a href="https://learninglab.psych.purdue.edu/downloads/2008/2008_Butler_Karpicke_Roediger_JEPLMC.pdf">Butler, Karpicke &amp; Roediger (2008)</a>. The 1–3 scale and labels here are practical reflection aids, not a validated diagnostic.</li>
+        <li><strong>Scope:</strong> <a href="https://www.isc2.org/certifications/cissp/cissp-certification-exam-outline">Current official ISC2 CISSP exam outline</a> (linked page lists the April 15, 2024 effective outline). Verify the official outline for updates; this game is not affiliated with ISC2.</li>
+        <li><strong>Network foundations:</strong> <a href="https://book.systemsapproach.org/direct/reliable.html">Computer Networks: A Systems Approach — Reliable Transmission</a>.</li>
       </ul>
-      <p class="microcopy">The game prioritizes missed concepts, but its answer explanations—not points or streaks—are the main learning tool.</p>
     </section>
   </main>
-
-  <footer>
-    <p>Built as a dependency-free static study game: HTML, CSS, and JavaScript only.</p>
-  </footer>
-  <script src="app.js"></script>
+  <footer>Sentinel • Think like a defender. Explain like a teacher. Built with HTML, CSS, and JavaScript only.</footer>
+  <noscript>This study campaign needs JavaScript enabled. No progress leaves your browser.</noscript>
 </body>
 </html>
