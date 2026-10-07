@@ -4,6 +4,25 @@ A dependency-free browser study campaign, evolved from **Data Link Defense**. Th
 
 https://dillonddraven.github.io/data-link-defense/
 
+## CYB 7223 midterm micro-study
+
+Direct launch: https://dillonddraven.github.io/data-link-defense/netsec.html
+
+A separate direct page, `netsec.html`, adds five-question, 3–5 minute practice mapped to the saved Fall 2026 syllabus/outline headings for Weeks 1–6:
+
+1. Introduction to Networking & Metrics
+2. Networking Software & Architectures
+3. Direct Link & Packet Switching Networks
+4. Auxiliary and End-to-End Protocols for IP
+5. Internetworking & IP
+6. IP Scalability & Subnetting
+
+The bank contains original choice, numeric, and ordering prompts grounded in the public course textbook plus saved lab concepts. It restores stop-and-wait, sliding windows, Go-Back-N/Selective Repeat constraints, 4B/5B, NRZ, framing, error recovery, ARP/ICMP, IPv4 fragmentation, router forwarding, TTL/classic Linux UDP traceroute, and subnetting practice. Misses wait behind the rest of the five-item session and lead the next same-week session; Replay missed is also available. Confidence is required before feedback.
+
+This scope is **provisional**: no complete Week 1–6 lecture set, instructor midterm review sheet, or quiz exports were found locally. It does not claim all exam content, authentic exam items, or readiness. Week 9+ routing/security/cloud topics are excluded from this mode. Technical source links are public; no private course files, answers, or personal details are published.
+
+CYB 7223 progress uses `sentinel-netsec-midterm-v1`; the existing CISSP key `sentinel-cissp-progress-v2` and legacy `data-link-defense-progress` are untouched. The CISSP page remains `index.html`, with a link to the distinct midterm page.
+
 The verified release is published at the URL above. It is a formative study aid, not graded coursework, an ISC2 product, a full exam simulator, or an exam-readiness score.
 
 ## Run locally
@@ -27,6 +46,8 @@ node --test tests/content.test.js    # relevant competing distractor decisions
 node --test tests/*.test.js          # complete deterministic unit/controller suite
 node --check app.js
 node --check questions.js
+node --check netsec-app.js
+node --check netsec-questions.js
 git diff --check
 ```
 
@@ -34,6 +55,9 @@ Optional **real Chrome** acceptance test, also dependency-free:
 
 ```sh
 node tests/browser-smoke.js
+node tests/netsec-browser-smoke.js
+# Optional paced NetSec run (about 3:10):
+PACE_MS=38000 node tests/netsec-browser-smoke.js
 # Linux or alternate Chrome installation:
 CHROME_BIN=/path/to/chrome node tests/browser-smoke.js
 ```
