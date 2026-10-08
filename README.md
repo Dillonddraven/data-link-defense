@@ -21,7 +21,7 @@ The bank contains original choice, numeric, and ordering prompts grounded in the
 
 This scope is **provisional**: no complete Week 1–6 lecture set, instructor midterm review sheet, or quiz exports were found locally. It does not claim all exam content, authentic exam items, or readiness. Week 9+ routing/security/cloud topics are excluded from this mode. Technical source links are public; no private course files, answers, or personal details are published.
 
-CYB 7223 progress uses `sentinel-netsec-midterm-v1`; the existing CISSP key `sentinel-cissp-progress-v2` and legacy `data-link-defense-progress` are untouched. The CISSP page remains `index.html`, with a link to the distinct midterm page.
+CYB 7223 progress now uses `sentinel-netsec-midterm-v2`. On first load it copies valid `sentinel-netsec-midterm-v1` progress forward without changing or deleting the v1 key; historic responses remain intact and are explicitly shown without invented timestamps. The existing CISSP key `sentinel-cissp-progress-v2` and legacy `data-link-defense-progress` are untouched. The CISSP page remains `index.html`, with a link to the distinct midterm page.
 
 The verified release is published at the URL above. It is a formative study aid, not graded coursework, an ISC2 product, a full exam simulator, or an exam-readiness score.
 

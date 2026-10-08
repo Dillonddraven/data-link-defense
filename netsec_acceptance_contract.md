@@ -11,7 +11,8 @@ No instructor midterm review sheet, full lecture deck set, or explicit exam blue
 
 ## Acceptance criteria
 - Keep `index.html` and `sentinel-cissp-progress-v2` behavior intact.
-- Add direct `netsec.html` entry and distinct versioned `sentinel-netsec-midterm-v1` localStorage key.
+- Add direct `netsec.html` entry and distinct versioned `sentinel-netsec-midterm-v2` localStorage key; copy valid v1 progress forward while leaving the v1 key untouched and never inventing historic timestamps.
+- Provide a manual, local-only detailed response report with question, response, correct answer, result, confidence, and available stable attempt/session IDs and capture times; no telemetry or automatic sharing.
 - Minimum 36 original questions, at least six per Week 1–6 unit, with a mix of choice, numeric, and order retrieval.
 - Include tracker-due concepts and saved-lab topics; explanations include answer reasoning and, for choices, why each alternative loses.
 - Require confidence 1–3 before grading; label confidence-3 misses and confidence-1 correct answers.

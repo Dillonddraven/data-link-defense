@@ -8,7 +8,7 @@
   <title>CYB 7223 Midterm Micro-Study • Sentinel</title>
   <link rel="stylesheet" href="styles.css?v=3.0.0">
   <script src="netsec-questions.js?v=3.0.0" defer></script>
-  <script src="netsec-app.js?v=3.0.0" defer></script>
+  <script src="netsec-app.js?v=3.1.0" defer></script>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to micro-study</a>
@@ -86,14 +86,14 @@
     <h2 id="review-title">Local review queue</h2>
     <p id="calibration">Confident misses: 0 • Low-confidence correct: 0.</p>
     <div class="actions">
-      <button id="replay-missed" type="button" disabled>Replay up to 5 misses</button>
-      <button id="share-report" type="button">Prepare study report</button>
+      <button id="replay-missed" type="button" disabled>Replay misses in a 5-question burst</button>
+      <button id="share-report" type="button">Prepare detailed report</button>
       <button id="reset-progress" type="button" class="quiet">Reset CYB 7223 progress</button>
     </div>
     <div id="report-panel" hidden>
-      <label for="report-text">Copy this local practice report</label>
+      <label for="report-text">Copy this detailed local response report</label>
       <textarea id="report-text" readonly rows="14"></textarea>
-      <p>Nothing is sent automatically.</p>
+      <p>Includes each saved question, response, correct answer, result, confidence, and available attempt time/ID. Nothing is sent automatically.</p>
     </div>
     <p id="storage-status" role="status">Progress saves only in this browser.</p>
   </section>
